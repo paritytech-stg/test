@@ -10,6 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update all the PRs
-        uses: paritytech/up-to-date-action@main
+        uses: paritytech/up-to-date-action@action
         with:
           GITHUB_TOKEN: ${{ github.secret }}
