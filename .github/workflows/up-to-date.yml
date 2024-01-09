@@ -3,7 +3,7 @@ name: Up to date
 on:
   push:
     branches:
-      - 'main'
+      - master
 
 jobs:
   updatePullRequests:
