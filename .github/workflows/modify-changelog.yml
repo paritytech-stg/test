@@ -15,11 +15,6 @@ jobs:
         uses: foodee/pr-includes-file-change@master
         with:
           paths: ^CHANGELOG.md
-      - name: Comment lack of CHANGELOG
-        if: steps.changed.outputs.matched != 'true'
-        run: gh pr comment $PR_NUMBER --body "Please modify the CHANGELOG.md file 🗂️"
-        env:
-          PR_NUMBER: context.issue.number
       - name: Fail
         if: steps.changed.outputs.matched != 'true' && !contains(github.event.pull_request.body, '[x] Does not require a CHANGELOG entry')
-        run: exit 1
+        run: echo "::error::CHANGELOG.md has not been modified. Either modify the file or check the checkbox" && exit 1
