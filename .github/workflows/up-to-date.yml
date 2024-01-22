@@ -19,3 +19,4 @@ jobs:
         uses: paritytech/up-to-date-action@main
         with:
           GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          REQUIRE_AUTO_MERGE: false
