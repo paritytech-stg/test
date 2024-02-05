@@ -8,6 +8,7 @@ on:
 jobs:
   updatePullRequests:
     runs-on: ubuntu-latest
+    name: Keep PRs up to date
     steps:
       - name: Generate token
         id: generate_token
