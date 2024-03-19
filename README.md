@@ -2,6 +2,6 @@
 
 This repository is used to experiment with GitHub actions.
 
-Try all of them here!
+We also test GitHub settings!
 
-We are currently testing paritytech/up-to-date-action#5
+Try all of them here!
