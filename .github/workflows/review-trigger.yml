@@ -23,7 +23,7 @@ jobs:
         run: exit 0
       - name: Get users who commented
         id: comments
-        run: echo "users=$(gh pr view ${{ github.event.number }} --repo ${{ github.repository }} --json comments --jq \".comments[].author.login\")" >> "$GITHUB_OUTPUT"
+        run: echo "users=$(gh pr view ${{ github.event.number }} --repo ${{ github.repository }} --json comments --jq '.comments[].author.login')" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ github.token }}
       - name: Fail when author pushes new code
