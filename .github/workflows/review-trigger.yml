@@ -34,6 +34,7 @@ jobs:
           github.event.action == 'synchronize' && 
           github.event.sender.login == github.event.pull_request.user.login
         run: |
+          echo "${{ toJson(github.event.pull_request) }}"
           # We get the list of reviewers who approved the PR
           REVIEWERS=$(gh api repos/${{ github.repository }}/pulls/${{ github.event.number }}/reviews \
           --jq '{reviewers: [.[] | select(.state == "APPROVED") | .user.login]}')
