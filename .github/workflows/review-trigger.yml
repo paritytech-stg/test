@@ -21,6 +21,11 @@ jobs:
       - name: Skip merge queue
         if: ${{ contains(github.ref, 'gh-readonly-queue') }}
         run: exit 0
+      - name: Get users who commented
+        id: comments
+        run: echo "users=$(gh pr view ${{ github.event.number }} --repo ${{ github.repository }} --json comments --jq \".comments[].author.login\")" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
       - name: Fail when author pushes new code
         id: fail
         # Require new reviews when the author is pushing and he is not a member
@@ -36,9 +41,6 @@ jobs:
           echo "Repo is ${{ github.repository }} and actor is ${{ github.actor }}"
 
           # We get the users who comment
-          COMMENTS=$(gh pr view ${{ github.event.number }} --repo ${{ github.repository }} --json comments --jq ".comments[].author.login")
-          echo "commenters=$COMMENTS" >> "$GITHUB_OUTPUT"
-
           echo "Commeneters are $COMMENTS"
 
           echo "::error::Project needs to be reviewed again"
@@ -48,14 +50,15 @@ jobs:
           exit 1
         env:
           GH_TOKEN: ${{ github.token }}
+          COMMENTS: ${{ steps.comments.outputs.users }}
       - name: Comment requirements
-        if: failure() && !contains(steps.fail.output.commenters, 'github-actions')
+        if: failure() && !contains(steps.comments.outputs.users, 'github-actions')
         run: |          
           echo "Commeneters are $COMMENTS"
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body "PR needs to be reviewed again after being modified"
         env:
           GH_TOKEN: ${{ github.token }}
-          COMMENTS: ${{ steps.fail.output.commenters }}
+          COMMENTS: ${{ steps.comments.outputs.users }}
       - name: Get PR number
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
