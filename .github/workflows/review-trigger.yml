@@ -48,12 +48,12 @@ jobs:
           exit 1
         env:
           GH_TOKEN: ${{ github.token }}
-      # - name: Comment requirements
-      #   if: failure() && ${{ contains(steps.fail.output.commenters, 'github-action') }}
-      #   run: |
-      #     echo "OH NO!"
-      #   env:
-      #     GH_TOKEN: ${{ github.token }}
+      - name: Comment requirements
+        if: failure() && ${{ !contains(steps.fail.output.commenters, 'github-action') }}
+        run: |
+          gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body "PR needs to be reviewed again after being modified"
+        env:
+          GH_TOKEN: ${{ github.token }}
       - name: Get PR number
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
