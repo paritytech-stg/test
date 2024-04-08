@@ -23,7 +23,7 @@ jobs:
         run: exit 0
       - name: Get users who commented
         id: comments
-        run: echo "users=$(gh pr view ${{ github.event.number }} --repo ${{ github.repository }} --json comments --jq '[.comments[].author.login]')" >> "$GITHUB_OUTPUT"
+        run: echo "bodies=$(gh pr view ${{ github.event.number }} --repo ${{ github.repository }} --json comments --jq '[.comments[].body]')" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ github.token }}
       - name: Fail when author pushes new code
@@ -51,10 +51,10 @@ jobs:
           exit 1
         env:
           GH_TOKEN: ${{ github.token }}
-          COMMENTS: ${{ steps.comments.outputs.users }}
+          COMMENTS: ${{ steps.comments.outputs.bodies }}
       - name: Comment requirements
         # If the previous step failed and github-actions hasn't commented yet
-        if: failure() && !contains(fromJson(steps.comments.outputs.users), 'github-actions')
+        if: failure() && !contains(fromJson(steps.comments.outputs.bodies), 'PR needs to be reviewed again after being modified!')
         run: |          
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body "PR needs to be reviewed again after being modified"
         env:
