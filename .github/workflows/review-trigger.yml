@@ -54,9 +54,9 @@ jobs:
           COMMENTS: ${{ steps.comments.outputs.bodies }}
       - name: Comment requirements
         # If the previous step failed and github-actions hasn't commented yet
-        if: failure() && !contains(fromJson(steps.comments.outputs.bodies), 'PR needs to be reviewed again after being modified!')
+        if: failure() && !contains(fromJson(steps.comments.outputs.bodies), 'Review required!')
         run: |          
-          gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body "PR needs to be reviewed again after being modified"
+          gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body "Review required! Latest push from author must always be reviewed"
         env:
           GH_TOKEN: ${{ github.token }}
           COMMENTS: ${{ steps.comments.outputs.users }}
