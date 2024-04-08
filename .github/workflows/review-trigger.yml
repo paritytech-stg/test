@@ -52,9 +52,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           COMMENTS: ${{ steps.comments.outputs.users }}
       - name: Comment requirements
+        # If the previous step failed and github-actions hasn't commented yet
         if: failure() && !contains(fromJson(steps.comments.outputs.users), 'github-actions')
         run: |          
-          echo "Commeneters are $COMMENTS"
           gh pr comment ${{ github.event.number }} --repo ${{ github.repository }} --body "PR needs to be reviewed again after being modified"
         env:
           GH_TOKEN: ${{ github.token }}
