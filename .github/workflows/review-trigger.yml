@@ -34,7 +34,7 @@ jobs:
           --jq '{reviewers: [.[] | select(.state == "APPROVED") | .user.login]}')
 
           # We get the users who comment
-          COMMENTS=$(gh pr view ${{ github.event.number }} --json comments --jq ".comments[].author.login")
+          COMMENTS=$(gh pr view ${{ github.event.number }} --repo ${{ github.repository }} --json comments --jq ".comments[].author.login")
           echo "commenters=COMMENTS" >> "$GITHUB_OUTPUT"
 
           echo "Commeneters are $COMMENTS"
