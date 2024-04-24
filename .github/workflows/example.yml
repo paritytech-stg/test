@@ -17,7 +17,7 @@ jobs:
       - name: Publish PR NUMBER
         run: echo "$NUMBER"
         env:
-          PAYLOAD: ${{toJson(github.event.workflow_run.pull_requests[0].number)}}
+          NUMBER: ${{toJson(github.event.workflow_run.pull_requests[0].number)}}
       - name: Extract content of artifact
         id: number
         uses: Bullrich/extract-text-from-artifact@v1.0.1
