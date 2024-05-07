@@ -9,8 +9,8 @@ jobs:
   cmd-check:
     runs-on: ubuntu-latest
     outputs:
-      commands: ${{ steps.command.outputs.commands }}
       branch: ${{ steps.command.outputs.branch }}
+      commands: ${{ steps.command.outputs.command }}
     name: Bot
     steps:
       - uses: paritytech/cmd-action/check@main
