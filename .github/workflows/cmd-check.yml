@@ -13,6 +13,9 @@ jobs:
       branch: ${{ steps.command.outputs.branch }}
     name: Bot
     steps:
+      - run: echo "data is $DATA"
+        env:
+          DATA: ${{ toJson(github.event.issue) }}
       - uses: paritytech/cmd-action/check@error/report-with-comment
         id: command
 
