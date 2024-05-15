@@ -9,8 +9,8 @@ jobs:
   cmd-check:
     runs-on: ubuntu-latest
     outputs:
-      commands: ${{ steps.command.outputs.commands }}
       branch: ${{ steps.command.outputs.branch }}
+      commands: ${{ steps.command.outputs.command }}
     name: Bot
     steps:
       - run: echo "data is $DATA"
@@ -26,6 +26,7 @@ jobs:
     # We set the current machine here (to differ between ours and generic ones)
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         command: ${{ fromJson(needs.cmd-check.outputs.commands) }}
     name: Run command
