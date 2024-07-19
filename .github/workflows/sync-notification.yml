@@ -1,0 +1,12 @@
+name: Notify of Weekly Sync
+on:
+  discussion: 
+    types:
+      - created
+
+jobs:
+  sendMatrixMessage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inform of discussion
+        run: echo "## New discussion [${{ github.event.discussion.title }}](${{ github.event.discussion.html_url }})"
