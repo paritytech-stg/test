@@ -3,6 +3,8 @@ on:
     outputs:
       result:
         value: ${{ jobs.build.outputs.result }}
+      run:
+        value: ${{ github.run_id }}
 
 jobs:
   build:
@@ -14,3 +16,10 @@ jobs:
         run: |
           result='hello world!' 
           echo "result=$result" >> $GITHUB_OUTPUT # Set the variable as GitHub output
+      - name: Write file
+        run: echo "This is an example text" >> test.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: example
+          path: test.txt
+          if-no-files-found: error
