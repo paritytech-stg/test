@@ -1,0 +1,16 @@
+on:
+  workflow_call:
+    outputs:
+      result:
+        value: ${{ jobs.build.outputs.result }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      result: ${{ steps.hello-world.outputs.result}}
+    steps:
+      - id: hello-world
+        run: |
+          result='hello world!' 
+          echo "result=$result" >> $GITHUB_OUTPUT # Set the variable as GitHub output

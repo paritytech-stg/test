@@ -1,0 +1,16 @@
+on:
+  pull_request:
+
+jobs:
+  build:
+    uses: ./.github/workflows/a.yml
+    secrets: inherit
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call data
+        run: echo "Result is $RESULT"
+        env:
+          RESULT: ${{ needs.build.outputs.result }}
